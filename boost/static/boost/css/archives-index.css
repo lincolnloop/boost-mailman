@@ -43,24 +43,8 @@
   color: var(--color-text-secondary);
 }
 
-/* Stock JS already follows a.list-name; stretch it so a non-link
-   cell matches. Empty ::after does not paint over cell radii. */
-.all-lists table.lists tr.list {
-  position: relative;
-  z-index: 0;
-}
-
-.all-lists table.lists tr.list a.list-name::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.all-lists table.lists tr.list a:not(.list-name) {
-  position: relative;
-  z-index: 1;
-}
-
+/* Stock hyperkitty-index.js follows a click anywhere in the row to
+   a.list-name. */
 @media (hover: hover) and (pointer: fine) {
   .all-lists table.lists tr.list {
     cursor: pointer;

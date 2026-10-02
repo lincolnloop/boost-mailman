@@ -199,7 +199,7 @@ table.user-data {
   font-size: var(--font-size-xs);
 }
 
-:is([data-page-group="settings"], .page-global_bans, .page-hk_list_overview) [role="main"],
+:is([data-page-group="settings"], .page-global_bans, .page-hk_list_overview, .page-manage_user) [role="main"],
 .page-list_summary [role="main"]:where(:has(> .boost-list-summary--signed-in)) {
   .table-responsive {
     overflow-x: auto;
@@ -213,6 +213,13 @@ table.user-data {
 }
 
 @media (max-width: 767px) {
+  /* The posting-activity table has no mobile twin (its hidden-xs is
+     Bootstrap 3) and no wrapper, and a table ignores overflow. */
+  .page-hk_user_profile .user-profile-content > .table {
+    display: block;
+    overflow-x: auto;
+  }
+
   [data-page-group="index"] [role="main"] {
     .table-responsive {
       overflow: hidden;
@@ -365,56 +372,9 @@ table.user-data tr:first-child > th {
   border-top: 0;
 }
 
-/* One-target rows: stretch the first non-control link. Empty ::after
-   does not paint, so corner-radius cells and the card clip stay.
-   Chromium contains position:absolute in a position:relative <tr>.
-   tr.list-address is a group label with no destination. */
-:is(.page-hk_user_favorites, .page-hk_user_last_views, .page-hk_user_votes)
-  .user-profile-content
-  > .table
-  tbody
-  tr:not(.list-address) {
-  position: relative;
-  z-index: 0;
-}
-
-:is(.page-hk_user_favorites, .page-hk_user_last_views, .page-hk_user_votes)
-  .user-profile-content
-  > .table
-  tbody
-  tr:not(.list-address)
-  a:not(.btn):not(.cancel)::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-:is(.page-hk_user_favorites, .page-hk_user_last_views, .page-hk_user_votes)
-  .user-profile-content
-  > .table
-  tbody
-  tr:not(.list-address)
-  :is(a.cancel, a.btn, button, input, .likeform) {
-  position: relative;
-  z-index: 1;
-}
-
-.page-ps_user_profile table tbody tr {
-  position: relative;
-  z-index: 0;
-}
-
-.page-ps_user_profile table tbody tr td:first-child a:not(.btn)::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.page-ps_user_profile table tbody tr td:not(:first-child) a:not(.btn) {
-  position: relative;
-  z-index: 1;
-}
-
+/* One-target rows: boost/js/row-links.js follows a click anywhere in the
+   row to its link; its ROWS list names the same tables. tr.list-address
+   is a group label with no destination. */
 @media (hover: hover) and (pointer: fine) {
   :is(.page-hk_user_favorites, .page-hk_user_last_views, .page-hk_user_votes)
     .user-profile-content

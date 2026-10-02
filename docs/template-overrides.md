@@ -1,6 +1,8 @@
 # Template overrides
 
-Copies of upstream Mailman templates, plus our own shared chrome partials.
+Copies of upstream Mailman templates, plus our own shared partials. The
+inventory of every override and partial is this file; see the section list
+for what is copied and what is deliberately left stock.
 
 Every stock stylesheet loads into `@layer stock` (see Decisions in [CONTEXT.md](../CONTEXT.md)).
 When an upgrade adds a stock `<link>` to a base template, or a child template
@@ -10,7 +12,7 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
 ## `postorius/templates/postorius/base.html`
 
 - **Upstream:** `postorius/templates/postorius/base.html` (Postorius 1.3.13)
-- **Why:** site chrome (header/footer) plus earlier v3 class, stylesheets, and Plausible.
+- **Why:** site chrome (header/footer), the v3 class, stylesheets, and Plausible.
 - **Diff vs the installed 1.3.13 file:**
   - `<html>` / `<body>` gain `class="v3"`; `<body>` also gets
     `page-{{ request.resolver_match.url_name }}` so CSS scopes by route, and
@@ -19,6 +21,9 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
     `style.css`, Font Awesome) are one `<style>`: `@layer boost-important,
     reset, stock, vendor;` then an `@import url(…) layer(stock)` per file, same order.
   - `{% include 'boost/stylesheets.html' %}` inside `{% block additionalcss %}`.
+  - `<script defer src="{% static 'boost/js/row-links.js' %}">` after that
+    block (full-row clicks on the list index, subscriptions and HyperKitty
+    profile tables).
   - Plausible script in `<head>`.
   - Stock Bootstrap navbar (Lists / Domains / Bans / System Information / Users /
     Archives, Sign In/Up, gravatar dropdown, noscript user menu) replaced by
@@ -29,7 +34,7 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
 ## `hyperkitty/templates/hyperkitty/base.html`
 
 - **Upstream:** `hyperkitty/templates/hyperkitty/base.html` (HyperKitty 1.3.12)
-- **Why:** site chrome (header/footer) plus earlier v3 class, stylesheets, Plausible,
+- **Why:** site chrome (header/footer), the v3 class, stylesheets, Plausible,
   and the removed `headers.html` include.
 - **Diff vs the installed 1.3.12 file:**
   - `<html>` / `<body>` gain `class="v3"`; `<body>` also gets
@@ -42,10 +47,11 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
     `media="all"`. The compressor joins same-media hunks in order into one
     file, so the output opens with `@layer stock{`. Keep every hunk at the
     same media, and run `compress` plus a worker restart after any change.
-  - `{% include 'boost/stylesheets.html' %}` after `{% endcompress %}`.
+  - `{% include 'boost/stylesheets.html' %}` after `{% endcompress %}`,
+    then `<script defer src="{% static 'boost/js/row-links.js' %}">`
+    (outside `{% compress %}`, so no `compress` run is needed for it).
   - Plausible script in `<head>`.
-  - Stock `headers.html` include is absent (already gone before the chrome
-    override).
+  - Stock `headers.html` include is removed.
   - Stock sticky `nav#navbar-main` (brand, search `form name="search"`, Manage
     lists, Sign In/Up, gravatar dropdown) replaced by
     `{% include "boost/chrome-header.html" with chrome_app="hyperkitty" chrome_logout_next="hk_root" %}`.
