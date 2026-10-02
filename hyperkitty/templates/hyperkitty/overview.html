@@ -101,6 +101,17 @@
 
                 </div> <!-- /row, container for home, overview, & thread lists -->
                 <div class="col-md-3">
+                    {% if 'postorius' in INSTALLED_APPS %}
+                    <section class="boost-card boost-join-card">
+                        <h2>{% trans "Join this list" %}</h2>
+                        <p class="boost-join-name">{% if mlist.display_name %}{{ mlist.display_name }}{% else %}{{ mlist.name|until:"@" }}{% endif %}</p>
+                        {% if mlist.description %}
+                        <p class="boost-join-desc">{{ mlist.description }}</p>
+                        {% endif %}
+                        <a class="btn btn-teal" href="{% url 'list_summary' list_id=mlist.list_id %}">{% trans "Subscribe" %}</a>
+                        <p class="boost-join-address">{{ mlist.name }}</p>
+                    </section>
+                    {% endif %}
                     <div class="">
                         <a href="{% url 'hk_archives_latest' mlist_fqdn=mlist.name %}" class="btn btn-primary mb-2">{% trans "All Threads" %}</a>
                         {% if posting_enabled %}
