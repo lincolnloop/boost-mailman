@@ -3,6 +3,15 @@
 
 When deploying the ansible role https://github.com/cppalliance/ansible-mailman3, copy the custom-boost/ folder here to the ansible tasks/ folder, so the resulting directory structure is tasks/custom-boost/main.yml.
 
+### `mailman3_boost_branch`
+
+Which branch of this repo the role deploys. `custom-boost/main.yml` clones
+`boost-mailman` into `/opt/github/ansible-managed/boost-mailman` and copies
+its `boost/`, `hyperkitty/` and `postorius/` static and template trees from
+there. The variable defaults to `master`; set it in host/group vars to a
+pushed branch to preview that branch on staging (re-run the role after the
+push).
+
 ### `mailman3_static_custom`
 
 The boost deployment must set `mailman3_static_custom: true` in its host/group
@@ -20,7 +29,10 @@ After deploy, check on staging that both of these return 200:
 - `/static/boost/css/reset.css`
 - `/static/boost/vendor/static/font/v3/mona-sans/mona-sans-vf.ttf`
 
-A missing toggle fails silently (stock look, no 404 on the pages themselves).
+A missing toggle fails loudly in practice: `custom-boost/main.yml` copies the
+template overrides whether or not the toggle is set, so the pages render the
+new markup with every `boost/` stylesheet returning 404. Merge the
+`ansible-mailman3` toggle change before deploying the redesign.
 
 Set this in the SSL section to include boost-specific redirects.
 

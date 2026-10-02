@@ -4,7 +4,7 @@ One line per route; a route appears on at most one line, and ungrouped
 routes render nothing. Both base templates wrap this include in
 {% filter slugify %}, which strips the line breaks below from the
 data-page-group value.
-A route check fails when a name here no longer exists in the installed apps.
+A route check (docs/maintaining.md) fails when a name here no longer exists in the installed apps.
 {% endcomment %}
 {% with r=request.resolver_match.url_name %}
 {# Post #}

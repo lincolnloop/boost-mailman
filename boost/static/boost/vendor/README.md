@@ -7,15 +7,13 @@ page files such as `../css/post.css`).
 
 ## Source
 
-- Repo: `cppalliance/website-v2` (local sibling `../website-v2`)
+- Repo: `cppalliance/website-v2`
 - Commit: `99be947e0321dba400e969f5a8e5fe57ea099fcb` (`99be947e`)
 - Date copied: 2026-09-24
 
-`design-system/` is a local, git-excluded extraction of `static/css/v3/` at
-that same commit (HEAD was `99be947e` when copied). Numbered `00`–`16` files
-are not in the git tree, so they were copied from `design-system/css/` rather
-than `git show 99be947e:design-system/...`. Everything else (footer, logo,
-fonts) was taken with `git archive 99be947e`.
+The numbered `00`–`16` files are not committed in that repo; they come from
+its local `design-system/css/` extraction of `static/css/v3/`. Everything
+else (footer, logo, fonts) was taken with `git archive 99be947e`.
 
 ## File list
 
@@ -67,3 +65,16 @@ rewrote production's absolute `/static/font/...` URLs to
 - `v3/monaspace-neon/monaspace-neon-latin-400-italic.ttf`
 - `MonaspaceXenon-Var.woff2`
 - `MonaspaceXenon-Italic.woff2`
+
+## Refreshing the snapshot
+
+To pick up a newer boost.org design:
+
+1. Copy the same file list (everything above) from a newer `website-v2`
+   commit, at the same source paths.
+2. Update the commit hash and date in the **Source** section above.
+3. Re-check the font paths: `06-foundations.css` must still resolve its
+   font URLs under `vendor/static/font/` (see the path note above).
+4. Review every page against the live site. The vendored files can change
+   the components underneath our Custom styles, which may then need
+   updating in `../css/`.

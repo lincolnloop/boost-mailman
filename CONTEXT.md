@@ -11,7 +11,7 @@ HTML produced by the installed Mailman apps (HyperKitty, Postorius, django-mailm
 _Avoid_: upstream HTML, default markup
 
 **Template override**:
-A copy of a single stock template that we own and edit, allowed only for the templates on the approved list.
+A copy of a single stock template that we own and edit, allowed only for the templates in [docs/template-overrides.md](docs/template-overrides.md).
 _Avoid_: fork, template copy
 
 ### Pages
@@ -92,7 +92,7 @@ We can't change Stock markup, so Custom styles need another way to tell which Pa
 <body class="v3 page-{{ request.resolver_match.url_name }}" data-page-group="…">
 ```
 
-Route names are Mailman's own stable identifiers (templates use them in `{% url %}`). The route-to-group mapping lives in one place, `boost/templates/boost/page-group.html`. The attribute holds one value, so a Page belongs to at most one group. Page styles are scoped by `[data-page-group="…"]`, using one level of native CSS nesting. A Page that needs styling its group does not explain is targeted by its route next to the group (`.page-<route>`), and the mismatch is logged as a candidate visual fix instead of being quietly folded into a group. A route check fails when a route name used in the partial or the CSS no longer exists in the installed apps.
+Route names are Mailman's own stable identifiers (templates use them in `{% url %}`). The route-to-group mapping lives in one place, `boost/templates/boost/page-group.html`. The attribute holds one value, so a Page belongs to at most one group. Page styles are scoped by `[data-page-group="…"]`, using one level of native CSS nesting. A Page that needs styling its group does not explain is targeted by its route next to the group (`.page-<route>`), and the mismatch is recorded in `docs/known-issues.md` instead of being quietly folded into a group. The route check in [docs/maintaining.md](docs/maintaining.md) fails when a route name used in the partial or the CSS no longer exists in the installed apps.
 
 Rejected:
 - **Guessing the Page from its content** (`[role="main"]:has(#id_display_name):not(:has(.nav-pills))`): broke silently on markup changes and pushed specificity up until every override had to escalate.
@@ -121,7 +121,7 @@ Rejected: **centralising hovers in one motion file**, which spread every hover a
 ### Consequences
 
 - Minimum browsers are Chrome 120, Safari 17.2 and Firefox 121, because of nesting and the remaining structural `:has()` uses.
-- A Mailman upgrade that adds or renames routes fails the route check until the partial and the CSS route lists are updated.
+- A Mailman upgrade that adds or renames routes fails the route check ([docs/maintaining.md](docs/maintaining.md)) until the partial and the CSS route lists are updated.
 - Pages without a resolved route (404s) get an empty `page-` and `data-page-group`, so only Component styling applies.
 - Changing the compress block needs `compress` and a worker restart. Every hunk in it must keep the same `media`, or the output splits and leaves the layer open.
 - A stock stylesheet added outside the `stock` layer wins on specificity again.

@@ -67,9 +67,8 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
 - **Why:** Boost symbol tile linking to Mailman home (`/`), used by the shared header.
 - **Diff vs the installed 1.3.12 file:** stock was
   `<a class="navbar-brand" href="{% url 'hk_root' %}">{{ site_name }}</a>`.
-  Earlier efforts added the vendored Boost SVG and `site_name` next to a
-  `navbar-brand` link to `hk_root`. The tile is now a `header__logo` link
-  to `/` (Mailman home) with the same SVG and no site name.
+  Ours is a `header__logo` link to `/` (Mailman home) with the vendored
+  Boost SVG and no site name.
 
 ## Our partials (not upstream copies)
 
@@ -91,8 +90,8 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
 - `boost/templates/boost/page-group.html` — maps the route name to its Page
   group (see Page group and Decisions in [CONTEXT.md](../CONTEXT.md)).
   Both bases include it inside `{% filter slugify %}` so its line breaks do
-  not reach the attribute. Re-run the route check after editing it or
-  upgrading Mailman.
+  not reach the attribute. Re-run the route check in [maintaining.md](maintaining.md) after
+  editing it or upgrading Mailman.
 
 ## `hyperkitty/templates/hyperkitty/thread.html`
 
@@ -130,7 +129,8 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
 ## `postorius/templates/postorius/lists/summary.html`
 
 - **Upstream:** `postorius/templates/postorius/lists/summary.html` (Postorius 1.3.13)
-- **Why:** About card + teal subscribe card (library-page bottom row). CSS
+- **Why:** About card + teal subscribe card, matching the bottom row of
+  boost.org's library pages. CSS
   cannot group the loose summary blocks or put the CTA card first on mobile.
 - **Diff vs installed:** `{% list_nav %}` stays. One `.boost-list-summary`
   wrapper (plus `.boost-list-summary--signed-in` for an authenticated visitor,
@@ -145,23 +145,26 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
   themselves). Archives heading is `h3` so About stays the card title.
   `mailing-list-card.css` was not vendored (those class names are not
   emitted). Anonymous Sign In on the subscribe card is
-  `class="btn btn-primary boost-subscribe-signin"` so `list-pages.css`
+  `class="btn btn-teal boost-subscribe-signin"` so `list-pages.css`
   can specialise it without a login-URL hook.
 
 ## `hyperkitty/templates/hyperkitty/overview.html`
 
 - **Upstream:** `hyperkitty/templates/hyperkitty/overview.html` (HyperKitty 1.3.12)
-- **Why:** teal "Join this list" card on the right column (owner review).
+- **Why:** teal "Join this list" card on the right column.
   CSS cannot insert subscribe markup.
 - **Diff vs installed:** one `<section class="boost-card boost-join-card">` (teal
   surface from `list-overview.css`) at the top of
-  `.col-md-3`: list name, one-line description, a primary Subscribe button to
+  `.col-md-3`: list name, one-line description, a teal Subscribe button
+  (`btn btn-teal`) to
   `{% url 'list_summary' list_id=mlist.list_id %}`, and the posting address.
   Every stock block, id, tab (`nav-pills` / `tab-pane` / `data-load-from`),
   AJAX hook, and `setup_overview` script stays. Wrapped in
   `{% if 'postorius' in INSTALLED_APPS %}`.
 
 ## Not copied
+
+Similarly named stock templates we deliberately left alone, styled from CSS only:
 
 - `hyperkitty/templates/hyperkitty/messages/right_col.html` — stock. Both
   sidebar links are already inside `<p>` children of `#message-overview-info`,

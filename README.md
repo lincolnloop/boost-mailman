@@ -40,12 +40,13 @@ How overrides load locally (mirrors production's `static_custom` + `TEMPLATES DI
   entrypoint on start.
 
 To customize a page you have not overridden yet, copy the version-matched template out of
-the container into this repo's tree and edit it, e.g.:
+the container into this repo's tree and edit it. Pick one that is not already overridden
+(the inventory is in [docs/template-overrides.md](docs/template-overrides.md)), e.g.:
 
 ```bash
 docker compose exec mailman-web cat \
-  /usr/lib/python3.12/site-packages/hyperkitty/templates/hyperkitty/overview.html \
-  > hyperkitty/templates/hyperkitty/overview.html
+  /usr/lib/python3.12/site-packages/hyperkitty/templates/hyperkitty/search_results.html \
+  > hyperkitty/templates/hyperkitty/search_results.html
 ```
 
 Stop / reset:
@@ -61,3 +62,16 @@ template files there, or by running ansible locally.
 - The settings.py file in ansible has been refactored so that instead of being an ansible template, it is static and leverages environment variables. See [settings.py](./settings.py).
 
 - **Environment Variables**: Copy file `env.template` to `.env` and adjust values to match your local environment.  
+
+## Working on the redesign
+
+How the boost.org re-skin hangs together, and how to change it safely:
+
+- [CONTEXT.md](CONTEXT.md): the approach, the vocabulary, and the decisions
+  (cascade layers, page groups, component states).
+- [docs/maintaining.md](docs/maintaining.md): recipes for everyday changes
+  (restyle a button, change a colour, upgrade Mailman).
+- [docs/template-overrides.md](docs/template-overrides.md): every copied
+  template, why it was copied, and how it differs from stock.
+- [docs/known-issues.md](docs/known-issues.md): open gaps, and the style
+  inconsistencies that were kept on purpose.  
