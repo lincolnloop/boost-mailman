@@ -33,7 +33,33 @@
                {% endif %}
             </div>
             <div class="flex-grow-1">
-                <h3>{{ subject }}</h3>
+                <header class="post-header">
+                    <h1 class="post-header__title">{{ subject }}</h1>
+                    <div class="post-header__meta">
+                        <time class="post-header__date" datetime="{{ starting_email.date|date:'c' }}">{{ starting_email.date|date:"F jS, Y" }}</time>
+                        <span>{% blocktrans %}{{ num_comments }} replies{% endblocktrans %}</span>
+                        <span>{% blocktrans with participants_count=thread.participants_count %}{{ participants_count }} participants{% endblocktrans %}</span>
+                        {% if user.is_authenticated %}
+                        <span>{% blocktrans %}{{ unread_count }} unread{% endblocktrans %}</span>
+                        {% endif %}
+                        <a href="{% url 'hk_list_overview' mlist_fqdn=mlist.name %}">{{ mlist.display_name|default:mlist.name }}</a>
+                    </div>
+                    <div class="boost-post-byline">
+                        <div class="boost-post-byline__avatar">
+                            {% gravatar starting_email.sender.address 48 %}
+                        </div>
+                        <div class="boost-post-byline__text">
+                            <span class="boost-post-byline__name">
+                                {% if starting_email.sender.mailman_id %}
+                                <a href="{% url 'hk_public_user_profile' user_id=starting_email.sender.mailman_id %}">{{ starting_email.sender_name|default:starting_email.sender.address|escapeemail }}</a>
+                                {% else %}
+                                {{ starting_email.sender_name|default:starting_email.sender.address|escapeemail }}
+                                {% endif %}
+                            </span>
+                            <span class="boost-post-byline__role">{% trans "Original poster" %}</span>
+                        </div>
+                    </div>
+                </header>
             </div>
             <div class="right">
                 <a id="prev-thread" class="btn btn-secondary btn-sm {% if not prev_thread %}disabled{% endif %}"
