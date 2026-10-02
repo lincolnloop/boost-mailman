@@ -74,7 +74,9 @@
   }
 }
 
-/* Admin nav pills: one scrolling row at 375, like v3 tabs. */
+/* Admin nav pills: one scrolling row at 375, like v3 tabs. The row clips
+   anything positioned against it, so the dropdown li is static and the
+   menus position against an ancestor outside the row. */
 
 @media (max-width: 767px) {
   [role="main"] > header.page-header ~ .nav-pills {
@@ -89,6 +91,10 @@
 
   [role="main"] > header.page-header ~ .nav-pills .nav-link {
     white-space: nowrap;
+  }
+
+  [role="main"] > header.page-header ~ .nav-pills .dropdown {
+    position: static;
   }
 }
 
