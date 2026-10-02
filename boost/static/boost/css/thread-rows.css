@@ -466,3 +466,7 @@ body:not(.js-enabled) #thread-list .expander,
 #thread-list .thread-list-header .list-name {
   color: black;
 }
+
+#thread-list .thread-list-info .list-address {
+  overflow-wrap: anywhere;
+}
