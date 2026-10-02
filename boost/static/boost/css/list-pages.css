@@ -54,7 +54,7 @@
 
 [role="main"] .boost-list-summary {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-large);
   align-items: start;
   margin-top: var(--space-large);
