@@ -64,11 +64,12 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
 ## `hyperkitty/templates/hyperkitty/navbar-brand.html`
 
 - **Upstream:** `hyperkitty/templates/hyperkitty/navbar-brand.html` (HyperKitty 1.3.12)
-- **Why:** Boost symbol tile linking to Mailman home (`/`), used by the shared header.
+- **Why:** Boost symbol tile linking to the current app's index, used by the shared header.
 - **Diff vs the installed 1.3.12 file:** stock was
   `<a class="navbar-brand" href="{% url 'hk_root' %}">{{ site_name }}</a>`.
-  Ours is a `header__logo` link to `/` (Mailman home) with the vendored
-  Boost SVG and no site name.
+  Ours is a `header__logo` link with the vendored Boost SVG and no site
+  name. It goes to `hk_root` when `chrome_app` is `hyperkitty` (as stock
+  did) and to `list_index` otherwise.
 
 ## Our partials (not upstream copies)
 
