@@ -2,7 +2,7 @@
 
 Copies of upstream Mailman templates, plus our own shared chrome partials.
 
-Every stock stylesheet loads into `@layer stock` (see the ADR 0001 amendment).
+Every stock stylesheet loads into `@layer stock` (see Decisions in [CONTEXT.md](../CONTEXT.md)).
 When an upgrade adds a stock `<link>` to a base template, or a child template
 fills `additional_stylesheets` / `additionalcss`, load it into the layer too.
 An unlayered stock sheet wins over the Custom styles on specificity again.
@@ -83,7 +83,7 @@ An unlayered stock sheet wins over the Custom styles on specificity again.
   `@layer boost-important, reset, stock, vendor;` and load every stock
   sheet into `stock`.
 - `boost/templates/boost/page-group.html` — maps the route name to its Page
-  group (see [CONTEXT.md](../CONTEXT.md) and [ADR 0002](adr/0002-page-groups-and-component-classes.md)).
+  group (see Page group and Decisions in [CONTEXT.md](../CONTEXT.md)).
   Both bases include it inside `{% filter slugify %}` so its line breaks do
   not reach the attribute. Re-run the route check after editing it or
   upgrading Mailman.
